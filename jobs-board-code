@@ -6,7 +6,8 @@ const spreadsheetId = "YOURIDHERE";
 const datasetSheet = "Datasets";
 
 // get this by creating a Google Cloud Project, enabling Sheets API and creating a new API Key credential.
-const getUrl = `YOURURL`;
+const API_KEY = "YOURKEY"
+const getUrl = ``https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${datasetSheet}?key=${API_KEY}`;`;
 
 d3.json(getUrl).then((resp) => {
   const data = resp.values;

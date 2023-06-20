@@ -1,0 +1,232 @@
+<script>
+// script to get the data from Google Sheets
+// spreadsheet must be marked with "Anyone with the link can view" to view using an API key
+// replace text in all caps with your info
+const spreadsheetId = "YOURIDHERE";
+const datasetSheet = "Datasets";
+
+// get this by creating a Google Cloud Project, enabling Sheets API and creating a new API Key credential.
+const getUrl = `YOURURL`;
+
+d3.json(getUrl).then((resp) => {
+  const data = resp.values;
+  const table = d3.select("#dataset-table");
+  const tableRows = table.selectAll("tr").data(data).enter().append("tr");
+  const tableCells = tableRows
+    .selectAll("td")
+    .data((d) => d)
+    .enter()
+    .append("td")
+    .html((d) => d);
+});
+</script>
+<script>
+//script to format table as cards
+var tables = $('.cards-table');
+
+// Create an array containing all table headers
+var table_headers = [];
+tables.each(function() {
+  var th = [];
+  $(this).find('thead th').each(function() {
+    th.push($(this).text());
+  });
+  table_headers.push(th);
+});
+
+// Add a data-label attribute to each cell with the value of the corresponding column header
+// Iterate through each table
+tables.each(function(table) {
+  var table_index = table;
+  // Iterate through each row
+  $(this).find('tbody tr').each(function() {
+    // Finally iterate through each column/cell
+    $(this).find('td').each(function(column) {
+      $(this).attr('data-label', table_headers[table_index][column]);
+    });
+  });
+});
+  </script>
+
+<style>
+body {
+ box-sizing: border-box;
+}
+
+.wrap {
+  margin: 0 auto;
+  max-width: 640px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    margin-left: auto;
+    margin-right: 0;
+    width: 30%;
+}
+
+tr {
+   display: block;
+   padding: 1rem 0.5rem 0.5rem 1rem;
+   border-top: 1px solid #f1eceb;
+    }
+
+tr:nth-child(even) {
+background-color: #f5f5f5;
+}
+
+tr:hover {
+background-color:#e3e3e3;
+}
+
+/* don't display column headings*/
+tr:first-child {
+    display: none !important;
+}
+
+td {
+display: block;
+font-size: 1.4em;
+}
+
+td:empty {
+    display: none;
+}
+
+tr td:empty {
+    display: none;
+}
+
+td:first-child::before {
+content: "Date posted: ";
+font-size: 11px;
+}
+
+/*Timestamp */
+td:first-child {
+font-size: 11px;
+}
+
+/*Job title */
+td:nth-child(2) {
+    display: block;
+    font-weight: 600;
+    line-height: 1.1;
+    color: #603525;
+    font-size: x-large;
+}
+
+/* Institution*/
+td:nth-child(3) {
+    font-weight: bold;
+    display: block;
+    font-size: medium;
+}
+
+/*Job Type, Remote/Telecommute */
+td:nth-child(4), td:nth-child(5), td:nth-child(6) {
+    display: inline-block;
+    background-color: rgba(135, 180, 209, 0.21);
+    padding: 3px;
+    margin-right: 3px;
+    font-size: 11px;
+    color: #30529e;
+   margin-left: 6px;
+}
+
+/*Description */
+td:nth-child(7) {
+    display: block;
+}
+
+/*URL */
+td:nth-child(8) {
+    display: none;
+}
+
+/*Contact Information */
+td:nth-child(9)::before {
+    content: "Contact: ";
+}
+
+/*Contact Information */
+td:nth-child(9) {
+    display: block;
+}
+
+/* Email address (no longer collected)*/
+td:nth-child(10) {
+    display: none;
+}
+
+/*Salary */
+td:nth-child(11)::before {
+    content: "Salary range: ";
+}
+
+/*Salary range */
+td:nth-child(11) {
+    display: block;
+}
+
+td > a {
+    display: block;
+    color: #white;
+    text-decoration: none;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.3333333;
+    border-radius: 6px;
+    color: #FFF;
+    background-color: #2d4c75;
+    border-color: #7a82aa;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+td > a:hover {
+    color: #ffffff;
+    text-decoration: none;
+   background-color: #603525;
+}
+
+td > a:active{
+    color: #ffffff;
+    text-decoration: none;
+   background-color: #337ab7;
+}
+
+td > a:visited {
+    color: #ffffff;
+    background-color: #2d4c75;
+    text-decoration: none;
+}
+
+  td {
+	  display: inline-block;
+  	margin: 0 0.5rem 0.5rem 0;
+	  padding: 0.5rem;
+	  text-align: left;
+  	border: 1px solid transparentize( #58C25F, 0.5 );
+    }
+</style>
+<div id="form-group-filter" class="form-group " style="">
+<label class="control-label " style="margin-top:3px;padding-right:0px" for="filter">Search Job Titles, Locations, and More:</label>
+<input class="form-control s-lib-enter" id="myInput" type="text" placeholder="Search..">
+</div>
+  <br>
+<div>
+ <table class="cards-table " id="dataset-table"></table>
+  </div>
+
+<script>
+// script for the table search box
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#dataset-table tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>

@@ -11,7 +11,7 @@ Javascript to import Google Sheet into website modified from [CodePen by duyentn
 CSS to style table from Google Sheet into cards modified from [CSS by Jeff Vdovjak](https://stackoverflow.com/posts/69007434/revisions)
 
 ## Demo
-See example in action at the [LOUIS Community Jobs Board](https://louislibraries.org/jobs-board)\
+See example in action at the [LOUIS Community Jobs Board](https://louislibraries.org/member-resources/jobs-board)\
 The spreadsheet used in the demo has the following columns (which affects the CSS):
 * Timestamp
 * Job Title
